@@ -1,17 +1,27 @@
-import {
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
-import { $Enums, AuthMethods } from '../../prisma/__generated__';
+import {Injectable, NotFoundException,} from '@nestjs/common';
+import {PrismaService} from '../prisma/prisma.service';
+import {$Enums, AuthMethods} from '../../prisma/__generated__';
+import {Request} from 'express';
 import UserRole = $Enums.UserRole;
-import { Request } from 'express';
-import { StarsDto } from './dto/stars.dto';
+import {SaveDeviceDTO, UpdateUserDTO} from "./dto/userInfo.dto";
+
 
 @Injectable()
 export class UserService {
   public constructor(private readonly prismaService: PrismaService) {}
+
+  public isMoreThanTwoWeeksAgo(dateString: string): boolean {
+    const [year, month, day] = dateString.split(':').map(Number);
+    const inputDate = new Date(year, month - 1, day);
+    const today = new Date();
+
+    const diffInMs = today.getTime() - inputDate.getTime();
+    const daysPassed = diffInMs / (1000 * 60 * 60 * 24);
+
+    return daysPassed >= 14;
+  }
+
+
 
   public async findById(id: string) {
     const user = await this.prismaService.user.findUnique({
@@ -28,9 +38,6 @@ export class UserService {
   public async findMyEmail(email: string) {
     const user = this.prismaService.user.findUnique({
       where: { email },
-      include: {
-        accounts: true,
-      },
     });
 
     if (!user)
@@ -61,31 +68,53 @@ export class UserService {
     return data;
   }
 
-  public async scoring(dto: StarsDto) {
-    const user = await this.findById(dto.id);
-    if (!user) {
-      throw new NotFoundException('Пользователь не найден');
+  public async getEnergy(id: string) {
+    try {
+      const user = await this.findById(id)
+      return user.energy
+    } catch (e) {
+      console.log(id)
     }
-
-    let updatedStars = user.stars;
-
-    updatedStars =
-      dto.operation === 'accrue'
-        ? user.stars + dto.amount
-        : Math.max(0, user.stars - dto.amount);
-
-    return this.prismaService.user.update({
-      where: { id: dto.id },
-      data: { stars: updatedStars },
-    });
   }
 
-  public async getStars(id: string) {
-    const user = await this.findById(id);
+  public async updateById(dto: UpdateUserDTO) {
+    const user = await this.prismaService.user.findUnique({
+      where: { id: dto.id },
+    });
+
     if (!user) {
-      throw new NotFoundException('Пользователь с таким id не был найден!');
+      throw new NotFoundException(`User with ID ${dto.id} not found`);
     }
-    return user.stars;
+    await this.prismaService.user.update({
+      where: { id: dto.id },
+      data: dto,
+    })
+
+    return await this.findById(dto.id);
+  }
+
+  public async saveDevice(dto: SaveDeviceDTO) {
+    // const data = await this.prismaService.device.create({
+    //
+    // })
+  }
+
+  public async getDevices(id: string) {
+    const data = await this.prismaService.device.findMany({
+      where: {
+        ownerId: id,
+      }
+    });
+    return data;
+  }
+
+  public async collectDangerData(id: string) {
+    const data = await this.prismaService.device.findMany({
+      where: {
+        ownerId: id
+      }
+    })
+    return data
   }
 
   public async create(
@@ -99,9 +128,7 @@ export class UserService {
   ) {
     const user = this.prismaService.user.create({
       data: { email, password, userName, picture, method, isVerified, role },
-      include: {
-        accounts: true,
-      },
+
     });
     return user;
   }

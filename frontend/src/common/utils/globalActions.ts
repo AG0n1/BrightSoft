@@ -24,7 +24,7 @@ export const getStars = async (id: string): Promise<IActionsFormat<number | null
 
 export const getUserInfo = async (
   access_token: string,
-  set: (
+  set?: (
     partial:
       | IUserStore
       | Partial<IUserStore>
@@ -42,9 +42,13 @@ export const getUserInfo = async (
   }
 
   localStorage.setItem('access_token', access_token);
-  set(() => ({
-    user: data?.data?.id,
-    role: parsedJwt.role,
-    stars: data?.data?.stars,
-  }));
+  if (set) {
+    set(() => ({
+      user: data?.data?.id,
+      role: parsedJwt.role,
+      energy: data?.data?.energy,
+    }));
+    return
+  }
+  return data?.data
 };

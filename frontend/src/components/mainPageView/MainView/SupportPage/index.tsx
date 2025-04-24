@@ -26,6 +26,7 @@ const SupportPage: FC = (): React.JSX.Element => {
           <Button
             htmlType={'submit'}
             className={s.supportButton}
+            type={'primary'}
           >
             {messages.button.send}
           </Button>

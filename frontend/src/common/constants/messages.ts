@@ -30,6 +30,9 @@ export const messages = {
         numberHunt: 'Охота за числами',
         history: 'История',
         profile: 'Профиль',
+        game: 'Игра',
+        devices: 'Мои устройства',
+        calendar: 'Календарь'
       },
       supportPage: {
         title: 'Нам жаль, что Вы столкнулись с неприятностью...',

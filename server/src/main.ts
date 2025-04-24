@@ -10,12 +10,14 @@ import { ms, StringValue } from './libs/common/utils/ms.util';
 import { parseBoolean } from './libs/common/utils/parse-boolean.util';
 import { RedisStore } from 'connect-redis';
 let express = require('express');
+import { join } from 'path';
+import {NestExpressApplication} from "@nestjs/platform-express";
 
 dotenv.config();
 let router = express.Router();
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const config = app.get(ConfigService);
 
   const redis: IORedis = new IORedis({
@@ -43,6 +45,9 @@ async function bootstrap() {
       }),
     }),
   );
+    app.useStaticAssets(join(__dirname, '..', 'uploads'), {
+        prefix: '/uploads/',
+    });
 
   app.use(cookieParser(config.getOrThrow<string>('COOKIE_SECRET')));
   app.useGlobalPipes(new ValidationPipe({ transform: true }));

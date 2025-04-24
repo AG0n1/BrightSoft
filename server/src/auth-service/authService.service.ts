@@ -113,7 +113,11 @@ export class AuthService {
       id: user.id,
       email: user.email,
       role: user.role,
-      stars: user.stars,
+      energy: user.energy,
+      userName: user.userName,
+      firstName: user.firstName,
+      secondName: user.secondName,
+      fatherName: user.fatherName,
     };
     return {
       access_token: this.jwtService.sign(payload),

@@ -1,16 +1,14 @@
-import { FC } from 'react';
-import { Button, notification } from 'antd';
-import { messages } from '../../../common/constants/messages';
-import { register } from './actions';
-import { IRegisterDTO } from '../../../types/commonTypes';
-import {
-  authorizationFieldsGenerator,
-  collectFieldsData,
-} from '../../../common/utils/generatotrs';
-import { createAccountFieldsConfig } from './config';
-import { useNavigate } from 'react-router-dom';
+import {FC} from 'react';
+import {Button, Image, notification} from 'antd';
+import {messages} from '../../../common/constants/messages';
+import {register} from './actions';
+import {IRegisterDTO} from '../../../types/commonTypes';
+import {authorizationFieldsGenerator, collectFieldsData,} from '../../../common/utils/generatotrs';
+import {createAccountFieldsConfig} from './config';
+import {useNavigate} from 'react-router-dom';
 
-import { Routes } from '../../../common/constants/routes';
+import {Routes} from '@common/constants/routes';
+import logo from "../../../images/logo5 1.png";
 
 const CreateAccount: FC = () => {
   const navigate = useNavigate();
@@ -42,6 +40,11 @@ const CreateAccount: FC = () => {
         className={'loginForm'}
       >
         <div className={'loginFormInputs'}>
+          <Image
+              style={{background: 'white', padding: '20px'}}
+              src={logo}
+              preview={false}
+          />
           {authorizationFieldsGenerator(createAccountFieldsConfig)}
           <Button htmlType={'submit'}>{messages.button.create}</Button>
         </div>

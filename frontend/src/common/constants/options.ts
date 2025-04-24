@@ -33,3 +33,30 @@ export const USER_STATUSES_OPTIONS = [
     value: 'deleted',
   },
 ];
+
+export const devicesOptionsList = [
+  {
+    label: 'Чайник',
+    value: 'heater',
+  },
+  {
+      label: 'Плита',
+      value: 'plate',
+    },
+  {
+      label: 'Розетка',
+      value: 'plugin',
+    },
+  {
+      label: 'Фен',
+      value: 'hairDryer',
+    },
+  {
+      label: 'Микроволновая печь',
+      value: 'microwave',
+    },
+  {
+      label: 'Холодильник',
+      value: 'fridge',
+    },
+]

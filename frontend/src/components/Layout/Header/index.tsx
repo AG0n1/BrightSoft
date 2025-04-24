@@ -1,36 +1,33 @@
-import { Menu } from 'antd';
-import { HEADER_OPTIONS } from '@common/MenuConfigs/config';
-import Navigation from '../../commonComponents/Navigation';
-import { Header } from 'antd/lib/layout/layout';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { routeGenerator } from '../../../common/utils/generatotrs';
+import {Menu} from 'antd';
+import {HEADER_OPTIONS} from '@common/MenuConfigs/config';
+import {Header} from 'antd/lib/layout/layout';
+import {useLocation, useNavigate} from 'react-router-dom';
+import {routeGenerator} from '@common/utils/generatotrs';
 
-import { Routes } from '../../../common/constants/routes';
+import {Routes} from '@common/constants/routes';
 
 const LayoutHeader = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const splitPathname: string[] = pathname.split('/');
 
   return (
-    <Header style={{ display: 'flex', alignItems: 'center' }}>
+    <Header style={{ display: 'flex', alignItems: 'center', background: 'white' }}>
       <Menu
-        theme="dark"
+        theme="light"
         mode="horizontal"
-        items={HEADER_OPTIONS[pathname.split('/')[2]]}
+        items={HEADER_OPTIONS}
         style={{ flex: 1, minWidth: 0 }}
-        defaultSelectedKeys={[pathname.split('/')[3]]}
+        defaultSelectedKeys={[pathname.split('/')[2]]}
         onClick={(value) => {
           navigate({
             pathname: routeGenerator(
               Routes.mainPage,
-              `/${splitPathname[2]}`,
               `/${value.key}`,
             ),
           });
         }}
       />
-      <Navigation />
+      {/*<Navigation />*/}
     </Header>
   );
 };

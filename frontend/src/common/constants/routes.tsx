@@ -23,6 +23,10 @@ import {
   numberHuntingLevelsConfig,
 } from '@common/gameConfigs/numberHunting.config';
 import PlayNumberHunting from '../../components/mainPageView/MainView/tasks/NumberHunt';
+import Profile from "../../components/mainPageView/MainView/User/Profile";
+import DevicesPage from "../../components/mainPageView/MainView/User/Profile/DevicesPage";
+import {routeGenerator} from "@common/utils/generatotrs";
+import CalendarPage from "../../components/mainPageView/MainView/User/Calendar";
 
 export const Routes = {
   mainPage: '/mainPage',
@@ -40,6 +44,9 @@ export const Routes = {
   userManagement: '/userManagement',
   play: '/play',
   numberHunt: '/numberHunt',
+  profile: '/profile',
+  devices: '/devices',
+  calendar: '/calendar'
 };
 
 export const logoutUserRoutesConfig: IRoutesGenerator[] = [
@@ -78,6 +85,20 @@ export const authorizedUserRoutesConfig = (role: IUserRoles): IRoutesGenerator[]
             element: <Grade />,
           },
         ],
+      },
+      {
+        path: Routes.profile,
+        element: <Profile />,
+        child: [
+          {
+            path: Routes.devices,
+            element: <DevicesPage />
+          },
+        ]
+      },
+      {
+        path: Routes.calendar,
+        element: <CalendarPage />
       },
       {
         path: Routes.tasks,
@@ -141,6 +162,6 @@ export const authorizedUserRoutesConfig = (role: IUserRoles): IRoutesGenerator[]
   },
   {
     path: '*',
-    element: <Navigate to={defineDefaultNavigation(role)} />,
+    element: <Navigate to={routeGenerator(Routes.mainPage, Routes.profile)} />,
   },
 ];

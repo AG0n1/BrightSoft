@@ -1,4 +1,4 @@
-import { IUserRoles } from '../store/userStore';
+import {IUserRoles, UserStatusesType} from '../store/userStore';
 import { IField } from './filterTypes';
 
 const userStatuses = ['active', 'blocked', 'deleted', 'non_confirmed'] as const;
@@ -32,20 +32,25 @@ export interface IActionsFormat<T> {
 }
 
 export interface IUserData {
-  accounts: string[];
-  createdAt: string;
-  email: string;
   id: string;
-  isTwoFactorEnabled: boolean;
-  isVerified: boolean;
-  method: string;
+  email: string;
   password: string;
-  picture: string;
   role: IUserRoles;
-  updatedAt: string;
   userName: string;
-  status: UserStatuses;
-  stars: number;
+  picture?: string;
+  status: UserStatusesType;
+  method: 'credantials' | 'google' | 'yandex';
+  energy: number;
+
+  firstName: string;
+  secondName: string;
+  fatherName: string;
+
+  isVerified: boolean;
+  isTwoFactorEnabled: boolean;
+
+  createdAt: string; // ISO string, можно заменить на `Date`, если парсится
+  updatedAt: string;
 }
 
 export interface IAllUsersMapped {
@@ -72,12 +77,14 @@ export interface INestErrorMessage {
 }
 
 export interface IAccessToken {
-  email: string;
-  iat: number;
-  role: IUserRoles;
-  id: string;
-  user: IUserData;
-  stars: number;
+  id: string,
+  email: string,
+  role: IUserRoles,
+  energy: number,
+  userName: string,
+  firstName: string,
+  secondName: string,
+  fatherName: string,
 }
 
 export interface IRoutesGenerator {

@@ -15,3 +15,21 @@ export class UserDeleteDto {
   @IsNotEmpty({ message: 'Id обязателен для заполнения.' })
   id: string;
 }
+
+export class SaveDeviceDTO {
+  type: string;
+  name: string;
+  consumptionRate: number;
+  picture: string;
+}
+
+export class UpdateUserDTO {
+  @IsString({ message: 'Id должен быть строкой.' })
+  @IsNotEmpty({ message: 'Id обязателен для заполнения.' })
+  id: string;
+
+  firstName: string;
+  secondName: string;
+  fatherName: string;
+  userName: string;
+}

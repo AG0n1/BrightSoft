@@ -7,7 +7,7 @@
   width: 100%;
   min-height: 100vh;
 
-  background: #24326c;
+  background: #004182FF;
 }
 
 .pageTitle {
@@ -26,19 +26,36 @@
 }
 
 .loginFormInputs {
-  min-height: 35%;
-  width: 40%;
+  min-width: 70%;
   display: flex;
-  gap: 40px;
+  gap: 20px;
+  justify-content: center;
   flex-direction: column;
+  border: 1px solid #e2e2e2;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 0 20px #00274b;
+  background: white;
 
-  button {
-    width: 30%;
-    height: 50px;
+  section {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 20vh;
+    width: 80%;
     margin: 0 auto;
-    border: 0;
-    background: #7fff9f;
+    button {
+      width: 30%;
+      height: 50px;
+      margin: 0 auto;
+      border: 0;
+      background: #7fff9f;
+    }
   }
+}
+
+.loginFormInputs > div {
+  margin: 0 auto;
 }
 
 .loginInput {
@@ -51,14 +68,14 @@
 .formItem {
   display: flex;
   flex-direction: column;
-  background: whitesmoke;
+  background: #f5f5f5;
   padding: 5px 0 0 10px;
   height: 60px;
   font-size: 12px;
   color: #262626;
 
   input {
-    background: whitesmoke;
+    background: #f5f5f5;
     font-size: 17px;
   }
 }

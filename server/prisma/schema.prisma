@@ -19,9 +19,9 @@ model User {
   method   AuthMethods
   energy   Int         @default(0)
 
-  firstName  String @map("first_name")
-  secondName String @map("second_name")
-  fatherName String @map("father_name")
+  firstName  String @default("") @map("first_name")
+  secondName String @default("") @map("second_name")
+  fatherName String @default("") @map("father_name")
 
   isVerified         Boolean @default(false) @map("is_verified")
   isTwoFactorEnabled Boolean @default(false) @map("is_two_factor_enabled")
@@ -41,6 +41,112 @@ model Token {
   expiresIn DateTime  @map("expires-in")
 
   @@map("tokens")
+}
+
+model Role {
+  id     Int         @id @default(autoincrement())
+  name   String
+  rights RoleRight[]
+}
+
+model RoleRight {
+  id      Int   @id @default(autoincrement())
+  role    Role  @relation(fields: [roleId], references: [id])
+  roleId  Int
+  right   Right @relation(fields: [rightId], references: [id])
+  rightId Int
+}
+
+model Right {
+  id             Int                  @id @default(autoincrement())
+  name           String
+  allowedObjects RightAllowedObject[]
+  RoleRight      RoleRight[]
+}
+
+model RightAllowedObject {
+  id                     Int    @id @default(autoincrement())
+  right                  Right  @relation(fields: [rightId], references: [id])
+  rightId                Int
+  allowedObjectId        Int
+  allowedObjectTableName String
+}
+
+model Person {
+  id           Int           @id @default(autoincrement())
+  nickname     String
+  email        String
+  mobileNumber String
+  roleId       Int
+  houses       PersonHouse[]
+}
+
+model PersonHouse {
+  id       Int    @id @default(autoincrement())
+  houseId  Int
+  personId Int
+  house    House  @relation(fields: [houseId], references: [id])
+  person   Person @relation(fields: [personId], references: [id])
+}
+
+model House {
+  id          Int                    @id @default(autoincrement())
+  ownerId     Int
+  type        String
+  gasLimit    Int
+  energyLimit Int
+  devices     HouseTechnicalDevice[]
+  PersonHouse PersonHouse[]
+}
+
+model HouseType {
+  type            String @id
+  baseEnergyLimit Int
+  baseGasLimit    Int
+}
+
+model HouseTechnicalDevice {
+  id                     Int      @id @default(autoincrement())
+  houseId                Int
+  deviceId               Int
+  dateOfLastVerification DateTime
+  house                  House    @relation(fields: [houseId], references: [id])
+  device                 Device   @relation(fields: [deviceId], references: [id])
+}
+
+model Device {
+  id                      Int                    @id @default(autoincrement())
+  deviceType              String
+  consumedResource        String
+  consumptionRate         Int
+  frequencyOfVerification DateTime
+  type                    DeviceType             @relation(fields: [deviceType], references: [type])
+  ownerId                 String                 @map("owner_id")
+  name                    String
+  HouseTechnicalDevice    HouseTechnicalDevice[]
+}
+
+model DeviceType {
+  type                        String   @id
+  baseConsumedResource        String
+  baseConsumptionSize         Int
+  baseFrequencyOfVerification Int
+  baseName                    String
+  Device                      Device[]
+}
+
+enum Resources {
+  gas
+  electricity
+}
+
+enum DeviceTypes {
+  heater
+  plate
+  plugin
+  hairDryer
+  microwave
+  fridge
 }
 
 enum AuthMethods {

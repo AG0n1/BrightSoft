@@ -1,15 +1,16 @@
 import {
+  ApiOutlined,
   BugOutlined,
   BuildOutlined,
-  EditOutlined,
+  CalendarOutlined,
   InfoCircleOutlined,
-  TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { getItem, MenuItem } from '../utils/helpers';
-import { ItemType } from 'antd/es/menu/interface';
-import { IUserRoles } from '../../store/userStore';
-import { messages } from '../constants/messages';
+import {getItem, MenuItem} from '../utils/helpers';
+import {ItemType} from 'antd/es/menu/interface';
+import {IUserRoles} from '../../store/userStore';
+import {messages} from '../constants/messages';
+import {Avatar, Badge, Space} from "antd";
 
 interface IHeaderOptions {
   [key: string]: ItemType[];
@@ -23,14 +24,12 @@ const source = messages.view.main.layoutOptions;
 
 export const LEFT_SIDE_OPTIONS_LIST: ILeftSideOptions = {
   administrator: [
-    getItem(source.users, 'userManagement', <TeamOutlined />),
-    getItem(source.tasks, 'tasks', <BuildOutlined />),
-    getItem(source.pages, 'editingPages', <EditOutlined />),
+    getItem(source.user, 'user/profile', <UserOutlined />),
     getItem(source.about, 'about', <InfoCircleOutlined />),
     getItem(source.support, 'support', <BugOutlined />),
   ],
   user: [
-    getItem(source.user, 'user', <UserOutlined />),
+    getItem(source.user, 'profile', <UserOutlined />),
     getItem(source.tasks, 'tasks', <BuildOutlined />),
     getItem(source.about, 'about', <InfoCircleOutlined />),
     getItem(source.support, 'support', <BugOutlined />),
@@ -41,17 +40,22 @@ export const LEFT_SIDE_OPTIONS_LIST: ILeftSideOptions = {
   ],
 };
 
-export const HEADER_OPTIONS: IHeaderOptions = {
-  user: [
-    getItem(source.grade, 'grade', <></>),
-    getItem(source.timetable, 'timetable', <></>),
-    getItem(source.history, 'history', <></>),
-    getItem(source.profile, 'profile', <></>),
-  ],
-  tasks: [
-    getItem(source.maze, 'maze'),
-    getItem(source.quickCount, 'quickCount'),
-    getItem('Абакусы', 'tasksAbakus'),
-    getItem(source.numberHunt, 'numberHunt'),
-  ],
-};
+export const HEADER_OPTIONS = [
+  getItem(source.profile, 'profile', <UserOutlined />),
+  getItem(
+      source.calendar,
+      'calendar',
+      <CalendarOutlined />
+  ),
+  getItem(
+      source.devices,
+      'devices',
+      <Space>
+        <Badge count={1}>
+          <Avatar size={40} style={{background: '#eeeeee'}} shape="circle" icon={<ApiOutlined style={{fontSize: '17px', color: 'black'}} />} />
+        </Badge>
+      </Space>
+  ),
+  getItem(source.support, 'support', <BugOutlined />),
+  getItem(source.about, 'about', <InfoCircleOutlined />),
+];

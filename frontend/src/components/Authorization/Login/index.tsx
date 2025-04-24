@@ -1,16 +1,13 @@
-import { FC } from 'react';
+import {FC} from 'react';
 import '../../../styles/login.scss';
-import { Button, Image } from 'antd';
-import logo from '../../../images/book-bookmark-minimalistic-svgrepo-com.svg';
-import {
-  authorizationFieldsGenerator,
-  collectFieldsData,
-} from '@common/utils/generatotrs';
-import { loginFieldsConfig } from './config';
-import { login } from './actions';
-import { ILoginDTO } from '../../../types/commonTypes';
-import { messages } from '@common/constants/messages';
-import { useUserStore } from '../../../store/userStore';
+import {Button, Image} from 'antd';
+import logo from '../../../images/logo5 1.png';
+import {authorizationFieldsGenerator, collectFieldsData,} from '@common/utils/generatotrs';
+import {loginFieldsConfig} from './config';
+import {login} from './actions';
+import {ILoginDTO} from '../../../types/commonTypes';
+import {messages} from '@common/constants/messages';
+import {useUserStore} from '../../../store/userStore';
 
 const Login: FC = () => {
   const { setUser } = useUserStore();
@@ -31,14 +28,17 @@ const Login: FC = () => {
         onSubmit={(values) => handleLogin(values)}
         className={'loginForm'}
       >
-        <Image
-          src={logo}
-          width={200}
-          preview={false}
-        />
         <div className={'loginFormInputs'}>
-          {authorizationFieldsGenerator(loginFieldsConfig)}
-          <Button htmlType={'submit'}>{messages.button.login}</Button>
+          <Image
+            style={{background: 'white', padding: '20px'}}
+            src={logo}
+            width={700}
+            preview={false}
+          />
+          <section>
+            {authorizationFieldsGenerator(loginFieldsConfig)}
+            <Button htmlType={'submit'}>{messages.button.login}</Button>
+          </section>
         </div>
       </form>
       <footer className="footer">
