@@ -5,11 +5,11 @@ import logo from '../../../images/book-bookmark-minimalistic-svgrepo-com.svg';
 import {
   authorizationFieldsGenerator,
   collectFieldsData,
-} from '../../../common/utils/generatotrs';
+} from '@common/utils/generatotrs';
 import { loginFieldsConfig } from './config';
 import { login } from './actions';
 import { ILoginDTO } from '../../../types/commonTypes';
-import { messages } from '../../../common/constants/messages';
+import { messages } from '@common/constants/messages';
 import { useUserStore } from '../../../store/userStore';
 
 const Login: FC = () => {
